@@ -1,0 +1,43 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'base/login.css' %}">
+<div class="container">
+    <div class="screen">
+        <div class="screen__content">
+
+
+            <form class="login" method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="login__field">
+                    <i class="login__icon fas fa-user"></i>
+                    <input type="text" class="login__input" name="email" placeholder="Email" />
+                </div>
+                <div class="login__field">
+                    <i class="login__icon fas fa-lock"></i>
+                    <input type="password" class="login__input" name="password" placeholder="Password" />
+                </div>
+                <button class="button login__submit" type="submit">
+                    <span class="button__text">Log In Now</span>
+                    <i class="button__icon fas fa-chevron-right"></i>
+                </button>
+                <a class="button register__submit" href="{% url 'register' %}">
+                    <span class="button__text">Register Now</span>
+                    <i class="button__icon fas fa-chevron-right"></i>
+                </a>
+
+
+                {% if messages %}
+                {% for message in messages %}
+                <p class="message__l_r">
+                    {{message}}
+                </p>
+                {% endfor %}
+                {% endif %}
+
+
+
+            </form>
+
+
+        </div>
+    </div>
+</div>

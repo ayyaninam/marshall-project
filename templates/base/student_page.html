@@ -1,0 +1,91 @@
+{% extends "base/base.html" %}
+{% block content %}
+{% load static %}
+<div class="container-fluid">
+    <div class="collection_title__user__page">
+        <img src="{{user.collection_title.url}}" alt="">
+    </div>
+    <div class="pp__and__intro__div my-5">
+        <div class="left__pp">
+            <img src="{{user.headshot.url}}" alt="">
+        </div>
+        <div class="right__intro px-3">
+            <div class="name my-5">
+                <h1 class="text-uppercase text-center">{{user.name}}</h1>
+            </div>
+            <div class="student__bio mb-5">
+                <h6 class="text-uppercase">Student Bio:</h6>
+                <p>{{user.bio}}</p>
+            </div>
+            <div class="collection__statement__of__user__p my-5">
+                <h6 class="text-uppercase">Collection Statement:</h6>
+                <p>{{user.collection_statement}}</p>
+            </div>
+        </div>
+
+    </div>
+    <div class="social__links__of__user__profile">
+        <a href="{{user.linkedin_url}}" target="_blank">
+            <img src="{% static 'base/images/linkedin.svg' %}" alt="">
+        </a>
+        <a href="{{user.instagram_url}}" target="_blank">
+            <img src="{% static 'base/images/instagram.svg' %}" alt="">
+        </a>
+        <a href="mailto:{{user.email}}" target="_blank">
+            <img src="{% static 'base/images/mail.svg' %}" alt="">
+        </a>
+    </div>
+
+    <div class="whole__portfolio__images__videos__user__page my-5">
+        {% if all_portfolio_uploaded %}
+        {% for i in all_portfolio_uploaded %}
+        {% if forloop.counter == 1 or forloop.counter0|divisibleby:3 %}
+        <div class="portfolio__section section__{{i.main_index}} my-2">
+            {%endif%}
+            <img src="{{i.image.url}}" alt="">
+            {% if forloop.counter|divisibleby:3 %}
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+
+        {% for i in all_video_uploaded %}
+        <video class="video-js my-2 section__{{i.index}}" controls preload="auto" data-setup='{}'>
+            <source src="{{i.video.url}}" type="video/mp4">
+            </source>
+            <!-- <source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm">
+            </source>
+            <source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg">
+            </source> -->
+            <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a
+                web browser that
+                <a href="https://videojs.com/html5-video-support/" target="_blank">
+                    supports HTML5 video
+                </a>
+            </p>
+        </video>
+        {% endfor %}
+
+
+        {% for i in all_mainimages_uploaded %}
+        <div class="single__image__div section__{{i.index}} my-2">
+            <img src="{{i.image.url}}" alt="">
+        </div>
+        {% endfor %}
+
+        {% if all_pdf_uploaded %}
+        {% for i in all_pdf_uploaded %}
+        <div class="pdf__user__page__section section__{{i.index}}">
+            {% autoescape off %}
+            {{i.pdf}}
+            {% endautoescape %}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+
+
+
+        {% endblock content %}

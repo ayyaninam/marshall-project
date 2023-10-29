@@ -1,0 +1,354 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+{% load static %}
+<div class="container">
+
+    <h6 class="d-flex m-auto justify-content-center align-center my-3 text-uppercase"
+        style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); border-radius: 100px;">Refresh the Page if you
+        don't see changes.</h6>
+
+    <!-- Users Details  -->
+
+    <form enctype="multipart/form-data" class="main__student__editing__form row" method="POST"
+        action="{% url 'student_dashboard' request.user.id %}">
+        {% csrf_token %}
+
+        <div class="main__collection__title my-5">
+            <div class="image__upload">
+                <input type="file" name="collection__title" id="collection__title" onchange="loadImage(this, event)"
+                    class="d-none">
+                {%if user__obj.collection_title %}
+                <img class="collection__title w-100" src='{{user__obj.collection_title.url}}' alt=""
+                    onclick="image__uploader(this)">
+                {% else %}
+                <img class="collection__title w-100" src='/static/base/demos/upload_collection_title.png' alt=""
+                    onclick="image__uploader(this)">
+                {% endif %}
+            </div>
+        </div>
+        <div class="profile__picture my-5">
+
+            <div class="image__upload">
+                <input type="file" name="profile_picture" id="profile_picture" onchange="loadImage(this, event)"
+                    class="d-none">
+                {%if user__obj.headshot %}
+
+                <img class="profile_picture w-50 d-flex m-auto" src='{{user__obj.headshot.url}}' alt=""
+                    onclick="image__uploader(this)">
+
+                {% else %}
+                <img class="profile_picture w-50 d-flex m-auto" src='/static/base/demos/default_pp.jpg' alt=""
+                    onclick="image__uploader(this)">
+
+                {% endif %}
+
+            </div>
+        </div>
+        <!-- Personal Information h1  -->
+        <h1 class="d-flex m-auto justify-content-center align-center my-3 "
+            style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); border-radius: 100px;">Personal
+            Information</h1>
+        <!-- End Personal Information h1  -->
+
+
+
+        <input type="text" id="deleted__items" name="deleted__items" class="d-none">
+        <div class="left__side__student__intro col">
+            <div class="mb-3 w-75">
+
+                <label for="student_name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="student_name" name="student_name" placeholder="Mark David"
+                    value="{{user__obj.name}}">
+
+            </div>
+            <div class="mb-3 w-75">
+                <label for="short_intro" class="form-label">Short Intro</label>
+                <textarea rows="5" type="text" class="form-control" id="short_intro" name="short_intro"
+                    placeholder="Short Intro" value="{{user__obj.short_intro}}">{{user__obj.short_intro}}</textarea>
+            </div>
+            <div class="mb-3 w-75">
+                <label for="long_student_bio" class="form-label">Bio</label>
+                <textarea rows="10" type="text" class="form-control" id="long_student_bio" name="long_student_bio"
+                    placeholder="Bio" value="{{user__obj.bio}}">{{user__obj.bio}}</textarea>
+            </div>
+
+        </div>
+        <div class="right__side__student__intro col">
+
+            <div class="mb-3 w-75">
+                <label for="collection_statement" class="form-label">Collection Statement</label>
+                <textarea rows="10" type="text" class="form-control" id="collection_statement"
+                    name="collection_statement" placeholder="Collection Statement"
+                    value="{{user__obj.collection_statement}}">{{user__obj.collection_statement}}</textarea>
+
+            </div>
+
+            <div class="mb-3 w-75">
+                <label for="linkedin_url" class="form-label">Linkedin URL</label>
+                <input type="text" class="form-control" id="linkedin_url" name="linkedin_url" placeholder="Linkedin URL"
+                    value="{{user__obj.linkedin_url}}">
+
+            </div>
+            <div class="mb-3 w-75">
+                <label for="instagram_url" class="form-label">Instagram URL</label>
+                <input type="text" class="form-control" id="instagram_url" name="instagram_url"
+                    placeholder="Instagram URL" value="{{user__obj.instagram_url}}">
+
+            </div>
+            <div class="mb-3 w-75">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email Address"
+                    value="{{user__obj.email}}">
+                <p class="my-2 d-flex justify-content-center align-center">Changing Email will change your Login
+                    Credentials also.
+                </p>
+            </div>
+        </div>
+        <hr>
+        <!-- Basic Details END  -->
+
+
+
+
+        <!-- --------------------------------- -->
+
+
+
+        <div class="container-fluid">
+            <div class="index__0" id="index__0">
+                <div data-worth="0"
+                    class="button__collection__adding__functionailties__0 d-flex justify-content-center align-center my-5">
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'pdf')">+
+                        PDF</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2"
+                        onclick="sectionAdder(this, 'images')">+ 3 Image Slot</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'video')">+
+                        Video</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'image')">+
+                        1 Image Header Size</button>
+                </div>
+                <!-- 
+                    context = {
+
+        "student_id":student_id,
+        "all_portfolio_uploaded": all_portfolio_uploaded,
+        "all_video_uploaded": all_video_uploaded,
+        "all_mainimages_uploaded": all_mainimages_uploaded,
+        "all_pdf_uploaded": all_pdf_uploaded, 
+}-->
+                {% if all_portfolio_uploaded %}
+                {% for i in all_portfolio_uploaded %}
+                {% if forloop.counter == 1 or forloop.counter0|divisibleby:3 %}
+                <div data-worth="{{i.main_index}}1"
+                    class="images__section__{{i.main_index}} section__items__{{i.main_index}} my-4">
+                    {%endif%}
+                    <div class="image__upload">
+                        <textarea type="text" name="images__id__in__database__{{i.id}}"
+                            class="d-none">{{i.main_index}}</textarea>
+                        <input type="file" value="{{i.image.url}}"
+                            name="image__upload__{{i.main_index}}_{{i.minor_index}}"
+                            id="image__upload__{{i.main_index}}_{{i.minor_index}}" onchange="loadImage(this, event)"
+                            class="d-none">
+                        <img class="image__upload__{{i.main_index}}_{{i.minor_index}}" src="{{i.image.url}}" alt=""
+                            onclick="image__uploader(this)">
+                    </div>
+
+                    {% if forloop.counter|divisibleby:3 %}
+                </div>
+
+                <button data-worth="{{i.main_index}}2" class="button__delete__upper__{{i.main_index}}"
+                    onClick="section__deletor(this), section__deletor_backend('{{i.main_index}}')" type="button"><i
+                        class="fa fa-times-circle"></i><span class="mx-2">DELETE UPPER
+                        SECTION</span></button>
+                <div data-worth="{{i.main_index}}3"
+                    class="button__collection__adding__functionailties__{{i.main_index}} d-flex justify-content-center align-center my-5">
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'pdf')">+
+                        PDF</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2"
+                        onclick="sectionAdder(this, 'images')">+ 3 Image Slot</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'video')">+
+                        Video</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'image')">+
+                        1 Image Header Size</button>
+                </div>
+                {% endif %}
+
+                {% endfor %}
+
+                {% endif %}
+                <!-- 
+                    context = {
+
+        "student_id":student_id,
+        "all_portfolio_uploaded": all_portfolio_uploaded,
+        "all_video_uploaded": all_video_uploaded,
+        "all_mainimages_uploaded": all_mainimages_uploaded,
+        "all_pdf_uploaded": all_pdf_uploaded, 
+}-->
+
+                {% if all_mainimages_uploaded %}
+
+                {% for i in all_mainimages_uploaded %}
+
+                <div data-worth="{{i.index}}1"
+                    class=" single__image__section__{{i.index}} section__items__{{i.index}} my-4">
+                    <div class="single__image__upload">
+                        <input type="file" name="single__image__upload__{{i.index}}"
+                            id="single__image__upload__{{i.index}}" onchange="loadImage(this, event)"
+                            value="{{i.image.url}}" class="d-none">
+                        <textarea type="text" name="image__id__in__database__{{i.id}}"
+                            class="d-none">{{i.index}}</textarea>
+                        <img class="single__image__upload__{{i.index}}" src="{{i.image.url}}" alt=""
+                            onclick="image__uploader(this)">
+                    </div>
+                </div>
+
+
+                <button data-worth="{{i.index}}2" class="button__delete__upper__{{i.index}}"
+                    onClick="section__deletor(this), section__deletor_backend('{{i.index}}')" type="button"><i
+                        class="fa fa-times-circle"></i><span class="mx-2">DELETE UPPER
+                        SECTION</span></button>
+                <div data-worth="{{i.index}}3"
+                    class="button__collection__adding__functionailties__{{i.index}} d-flex justify-content-center align-center my-5">
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'pdf')">+
+                        PDF</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2"
+                        onclick="sectionAdder(this, 'images')">+ 3 Image Slot</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'video')">+
+                        Video</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'image')">+
+                        1 Image Header Size</button>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+
+
+                <!-- <div class="single__image__section__0 my-4">
+                    <div class="single__image__upload">
+                        <input type="file" name="single__image__upload__1" id="single__image__upload__1"
+                            onchange="loadImage(this, event)" class="d-none">
+                        <img class="single__image__upload__1"
+                            src="{% static 'base/demos/upload_single_image_demo.png' %}" alt=""
+                            onclick="image__uploader(this)">
+                    </div>
+
+                </div> 
+
+
+         
+                <!-- 
+                    context = {
+
+        "student_id":student_id,
+        "all_portfolio_uploaded": all_portfolio_uploaded,
+        "all_video_uploaded": all_video_uploaded,
+        "all_mainimages_uploaded": all_mainimages_uploaded,
+        "all_pdf_uploaded": all_pdf_uploaded, 
+}-->
+
+                {% if all_video_uploaded %}
+                {% for i in all_video_uploaded %}
+                <div data-worth="{{i.index}}1" class="video__section__{{i.index}} section__items__{{i.index}} my-4">
+                    <div class="video__upload">
+                        <textarea type="text" name="video__id__in__database__{{i.id}}"
+                            class="d-none">{{i.index}}</textarea>
+                        <div class="uploading__statues" id="uploading__statues__video__uploader__{{i.index}}">
+                            <h4 class="current__state text-center">Video Uploaded</h4>
+                            <!-- <p onload="full_name_giver(this)">{{i.video.name}}</p> -->
+                            <h1 class="current__progress text-success">100%</h1>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button data-worth="{{i.index}}2" class="button__delete__upper__{{i.index}}"
+                    onClick="section__deletor(this), section__deletor_backend('{{i.index}}')" type="button"><i
+                        class="fa fa-times-circle"></i><span class="mx-2">DELETE UPPER
+                        SECTION</span></button>
+                <div data-worth="{{i.index}}3"
+                    class="button__collection__adding__functionailties__{{i.index}} d-flex justify-content-center align-center my-5">
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'pdf')">+
+                        PDF</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2"
+                        onclick="sectionAdder(this, 'images')">+ 3 Image Slot</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'video')">+
+                        Video</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'image')">+
+                        1 Image Header Size</button>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+
+                <!-- pdf section uploader  -->
+                {% if all_pdf_uploaded %}
+
+                {% for i in all_pdf_uploaded %}
+
+                <div data-worth="{{i.index}}1" class="pdf__section__{{i.index}} section__items__{{i.index}} my-4">
+                    <div class="pdf__upload">
+                        <textarea type="text" name="pdf__id__in__database__{{i.id}}"
+                            class="d-none">{{i.index}}</textarea>
+                        <div class="pdf__dashboard__div">
+                            {% autoescape off %}
+                            {{i.pdf}}
+                            {% endautoescape %}
+                        </div>
+                    </div>
+
+                </div>
+                <button data-worth="{{i.index}}2" class="button__delete__upper__{{i.index}}"
+                    onClick="section__deletor(this), section__deletor_backend('{{i.index}}')" type="button"><i
+                        class="fa fa-times-circle"></i><span class="mx-2">DELETE UPPER
+                        SECTION</span></button>
+                <div data-worth="{{i.index}}3"
+                    class="button__collection__adding__functionailties__{{i.index}} d-flex justify-content-center align-center my-5">
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'pdf')">+
+                        PDF</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2"
+                        onclick="sectionAdder(this, 'images')">+ 3 Image Slot</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'video')">+
+                        Video</button>
+                    <button type="button" class="button_adding bg_bl_tx_wh mx-2" onclick="sectionAdder(this, 'image')">+
+                        1 Image Header Size</button>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <button type="submit"
+            class="btn btn-outline-dark w-25 d-flex m-auto justify-content-center align-center">Submit</button>
+    </form>
+
+
+
+</div>
+<script>
+
+    function sortMe(a, b) {
+        return a.className < b.className;
+    }
+    window.onload = function () {
+        console.log("Window loaded!");
+        localStorage.removeItem("deleted__items");
+
+        // arranger
+
+        // var elem = document.querySelector('#index__0').children.sort(sortMe);
+
+        // var elem = $('#index__0').find('[class*="section__items__"], [class*="button__collection__adding__functionailties__"], [class*="button__delete__upper__"]').sort(sortMe);
+        // $('#index__0').append(elem);
+        // console.log(elem)
+
+        $('#index__0').find('[class*="section__items__"], [class*="button__collection__adding__functionailties__"], [class*="button__delete__upper__"]').sort(function (a, b) {
+            return $(a).data('worth') - $(b).data('worth');
+        }).appendTo('#index__0');
+
+    };
+</script>
+{% endblock content %}

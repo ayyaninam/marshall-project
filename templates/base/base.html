@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+{%load static %}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="{% static 'base/style.css' %}">
+  <link href="//vjs.zencdn.net/8.3.0/video-js.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <title>Whitehouse Institution of Design</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary mb-5">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'homepage' %}">
+        <img src="{% static 'base/logos/WH BLACK LOGO-01.png' %}" style="width: 5rem;" alt="">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarSupportedContent ">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 m-auto h5">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'homepage' %}">HOME</a>
+          </li>
+          {% if request.user.is_authenticated %}
+          <li class="nav-item mx-5">
+            <a class="nav-link" aria-current="page" href="{% url 'student_dashboard' request.user.id %}">STUDENT
+              DASHBAORD</a>
+          </li>
+          <li class="nav-item mx-5">
+            <a class="nav-link" aria-current="page" href="{% url 'logout' %}">LOGOUT</a>
+          </li>
+
+          {% else %}
+          <li class="nav-item mx-5">
+            <a class="nav-link active" aria-current="page" href="{% url 'login' %}">LOGIN</a>
+          </li>
+          {%endif%}
+
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+  <div class="modal" tabindex="-1" id="uploading__modal" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Uploading right now</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h3 class="d-flex m-auto justify-content-center align-center" id="progress-bar-file"></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  {% block content %}
+
+  {% endblock content %}
+
+  <footer class="mt-5">
+    <button class="btn d-flex m-auto my-4">
+      <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+        viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+        <path
+          d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z" />
+      </svg>
+      <br>
+      <span class="mx-2"> Back to Top</span>
+    </button>
+
+    <div class="container-fluid d-flex m-auto justify-content-center py-5 btn btn-secondary">
+      © 2022 Whitehouse Institute of Design Australia
+    </div>
+  </footer>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+
+
+
+
+<!-- My Code -->
+<script src="{% static 'base/js/script.js' %}"> </script>
+<script src="{% static 'base/js/jquery.js' %}"> </script>
+<script src="//vjs.zencdn.net/8.3.0/video.min.js"></script>
+
+
+</html>
