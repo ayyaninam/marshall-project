@@ -36,11 +36,11 @@
         </a>
     </div>
 
-    <div class="whole__portfolio__images__videos__user__page my-5">
+    <div id="whole__portfolio__images__videos__user__page__1" class="whole__portfolio__images__videos__user__page my-5">
         {% if all_portfolio_uploaded %}
         {% for i in all_portfolio_uploaded %}
         {% if forloop.counter == 1 or forloop.counter0|divisibleby:3 %}
-        <div class="portfolio__section section__{{i.main_index}} my-2">
+        <div data-worth="{{i.main_index}}" class="portfolio__section section__{{i.main_index}} my-2">
             {%endif%}
             <img src="{{i.image.url}}" alt="">
             {% if forloop.counter|divisibleby:3 %}
@@ -51,7 +51,8 @@
 
 
         {% for i in all_video_uploaded %}
-        <video class="video-js my-2 section__{{i.index}}" controls preload="auto" data-setup='{}'>
+        <video data-worth="{{i.index}}" class="video-js my-2 section__{{i.index}}" controls preload="auto"
+            data-setup='{}'>
             <source src="{{i.video.url}}" type="video/mp4">
             </source>
             <!-- <source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm">
@@ -70,14 +71,14 @@
 
 
         {% for i in all_mainimages_uploaded %}
-        <div class="single__image__div section__{{i.index}} my-2">
+        <div data-worth="{{i.index}}" class="single__image__div section__{{i.index}} my-2">
             <img src="{{i.image.url}}" alt="">
         </div>
         {% endfor %}
 
         {% if all_pdf_uploaded %}
         {% for i in all_pdf_uploaded %}
-        <div class="pdf__user__page__section section__{{i.index}}">
+        <div data-worth="{{i.index}}" class="pdf__user__page__section section__{{i.index}}">
             {% autoescape off %}
             {{i.pdf}}
             {% endautoescape %}
@@ -85,7 +86,18 @@
         {% endfor %}
         {% endif %}
 
+        <script>
+            function sortMe(a, b) {
+                return a.className < b.className;
+            }
+            window.onload = function () {
 
+                $('#whole__portfolio__images__videos__user__page__1').find('[class*="section__"]').sort(function (a, b) {
+                    return $(a).data('worth') - $(b).data('worth');
+                }).appendTo('#whole__portfolio__images__videos__user__page__1');
+
+            };
+        </script>
 
 
         {% endblock content %}

@@ -7,16 +7,19 @@ from .models import *
 
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from django.db.models import Count
 
 User = get_user_model()
 
 # Create your views here.
 def homepage(request):
-    all_portfolio = StudentPortfolio.objects.all()
-    
+    all_portfolio = StudentPortfolio.objects.filter(student__student_profile_status=True).annotate(null_student__order=Count('student__order')).order_by('-null_student__order', 'student__order')
+
+    # print(all_portfolio.first().student)
     context = {
         "all_portfolio":all_portfolio
     }
+
     return render(request, 'base/homepage.html', context)
 
 

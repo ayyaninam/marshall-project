@@ -463,3 +463,16 @@ function section__deletor_backend(index) {
 }
 
 
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+
+
+function on__Sumbit_portfolio(e, event) {
+  $("#uploading__modal").modal("show");
+  $('#uploading__modal').modal({backdrop: 'static', keyboard: false})  
+  document.querySelectorAll(".modal .modal-title")[0].innerHTML = "<span class='text-danger text-uppercase'>Please Don't Refresh the page</span><br><span>Uploading Your Files</span>"
+    document.getElementById("progress-bar-file").innerHTML = `<div class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div>`;
+}

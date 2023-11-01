@@ -12,18 +12,26 @@ class User(AbstractUser):
     name = models.CharField(max_length=500, null=True, blank=True, default="David Mark")
     short_intro = models.CharField(max_length=500, null=True, blank=True, default="Short Intro...")
     headshot = models.ImageField(upload_to='headshots/', null=True, blank=True, default='headshots/default_pp.jpg')
-    collection_title = models.ImageField(upload_to='collection_title/', null=True, blank=True, default="")
+    collection_title = models.ImageField(upload_to='collection_title/', default="collection_title/upload_collection_title.png")
     bio = models.TextField(null=True, blank=True, default="BIO...")
     collection_statement = models.TextField(null=True, blank=True, default="Collection Statement...")
     linkedin_url = models.CharField(max_length=500, null=True, blank=True, default="www.linkedin.com/")
     instagram_url = models.CharField(max_length=500, null=True, blank=True, default="www.instagram.com/")
 
 
+    student_profile_status = models.BooleanField(verbose_name="Student Profile Active? ", default=False)
+    order = models.IntegerField(blank=True, null=True, unique=True)
+
     username = None
 
     objects = UserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+    
+    @property
+    def url_to_user_page(self):
+        return f"/student-dashboard/{self.id}"
+    
 
     def __str__(self):
         return self.email

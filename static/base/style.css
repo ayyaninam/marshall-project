@@ -304,9 +304,21 @@ div[class*="pdf__section__"] img {
     height: 100vh !important;
 }
 
+.nav-item {
+    margin-right: 50px;
+}
+
+.navbar-collapse {
+    margin-top: 20px;
+}
+
 @media only screen and (max-width: 885px) {
     .main__student__editing__form {
         display: block;
+    }
+
+    #logo__at__the__top {
+        width: 50vw !important;
     }
 
     .student_card__img {
