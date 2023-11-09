@@ -10,8 +10,8 @@
 
     <!-- Users Details  -->
 
-    <form enctype="multipart/form-data" class="main__student__editing__form row" method="POST"
-        action="{% url 'student_dashboard' request.user.id %}">
+    <form enctype="multipart/form-data" class="main__student__editing__form row" id="form__of__student__inputs"
+        method="POST" action="{% url 'student_dashboard' request.user.id %}">
         {% csrf_token %}
 
         <div class="main__collection__title my-5">
@@ -149,7 +149,7 @@
                         <input type="file" value="{{i.image.url}}"
                             name="image__upload__{{i.main_index}}_{{i.minor_index}}"
                             id="image__upload__{{i.main_index}}_{{i.minor_index}}" onchange="loadImage(this, event)"
-                            class="d-none">
+                            class="d-none image__already__upload__{{i.main_index}}_{{i.minor_index}}">
                         <img class="image__upload__{{i.main_index}}_{{i.minor_index}}" src="{{i.image.url}}" alt=""
                             onclick="image__uploader(this)">
                     </div>
@@ -321,7 +321,7 @@
 
         </div>
 
-        <button type="submit" onclick="on__Sumbit_portfolio(this, event)"
+        <button type="button" onclick="on__Sumbit_portfolio(this, event)"
             class="btn btn-outline-dark w-25 d-flex m-auto justify-content-center align-center">Submit</button>
     </form>
 

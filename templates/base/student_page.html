@@ -43,7 +43,7 @@
         <div data-worth="{{i.main_index}}" class="portfolio__section section__{{i.main_index}} my-2">
             {%endif%}
             <img src="{{i.image.url}}" alt="">
-            {% if forloop.counter|divisibleby:3 %}
+            {% if forloop.counter|divisibleby:3 or all_portfolio_uploaded|length == forloop.counter %}
         </div>
         {% endif %}
         {% endfor %}
@@ -85,19 +85,21 @@
         </div>
         {% endfor %}
         {% endif %}
+    </div>
+</div>
 
-        <script>
-            function sortMe(a, b) {
-                return a.className < b.className;
-            }
-            window.onload = function () {
+<script>
+    function sortMe(a, b) {
+        return a.className < b.className;
+    }
+    window.onload = function () {
 
-                $('#whole__portfolio__images__videos__user__page__1').find('[class*="section__"]').sort(function (a, b) {
-                    return $(a).data('worth') - $(b).data('worth');
-                }).appendTo('#whole__portfolio__images__videos__user__page__1');
+        $('#whole__portfolio__images__videos__user__page__1').find('[class*="section__"]').sort(function (a, b) {
+            return $(a).data('worth') - $(b).data('worth');
+        }).appendTo('#whole__portfolio__images__videos__user__page__1');
 
-            };
-        </script>
+    };
+</script>
 
 
-        {% endblock content %}
+{% endblock content %}

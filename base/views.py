@@ -125,7 +125,7 @@ def student_dashboard(request, student_id):
                 index = int(str(i).split('pdf__uploader__')[1])
                 if (StudentPdf.objects.filter(student=request.user)):
                     if (StudentPdf.objects.filter(index= index)):
-                        change_able_text = StudentPdf.objects.get(index=index)
+                        change_able_text = registered__user.studentpdf_set.get(index=index)
                         change_able_text.pdf = text
                         change_able_text.save()
                     else:
@@ -134,7 +134,7 @@ def student_dashboard(request, student_id):
                     StudentPdf.objects.create(student=request.user, pdf=text, index=index)
 
 
-
+        print(recieved__files__only)
         for i in recieved__files__only:
             file = request.FILES[i]
 
@@ -144,7 +144,7 @@ def student_dashboard(request, student_id):
                 minor_index = int(str(i).split('image__upload__')[1].split("_")[1])
                 if (StudentPortfolio.objects.filter(student=request.user)):
                     if (StudentPortfolio.objects.filter(Q(main_index=main_index),Q(minor_index=minor_index))):
-                        change_able_picture = StudentPortfolio.objects.get(Q(main_index=main_index),Q(minor_index=minor_index))
+                        change_able_picture = registered__user.studentportfolio_set.get(Q(main_index=main_index),Q(minor_index=minor_index))
                         change_able_picture.image = file
                         change_able_picture.save()
                     else:
@@ -159,7 +159,7 @@ def student_dashboard(request, student_id):
                 print(index)
                 if (StudentVideo.objects.filter(student=request.user)):
                     if (StudentVideo.objects.filter(index= index)):
-                        change_able_picture = StudentVideo.objects.get(index=index)
+                        change_able_picture = registered__user.studentvideo_set.get(index=index)
                         change_able_picture.video = file
                         change_able_picture.save()
                     else:
@@ -173,7 +173,7 @@ def student_dashboard(request, student_id):
                 print(index)
                 if (StudentMainImage.objects.filter(student=request.user)):
                     if (StudentMainImage.objects.filter(index= index)):
-                        change_able_picture = StudentMainImage.objects.get(index=index)
+                        change_able_picture = registered__user.studentmainimage_set.get(index=index)
                         change_able_picture.image = file
                         change_able_picture.save()
                     else:
@@ -205,18 +205,6 @@ def student_dashboard(request, student_id):
         "user__obj" :user__obj,
 }
     return render(request, 'base/student_dashboard.html', context)
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Login/Register Functions only 
 def login(request):

@@ -252,6 +252,16 @@ div[class*="pdf__section__"] img {
 
 }
 
+.pp__and__intro__div .left__pp {
+    width: 100%;
+
+}
+
+.pp__and__intro__div .left__pp img {
+    width: 100%;
+
+}
+
 .pp__and__intro__div .right__intro {
     color: var(--grey-color);
 }

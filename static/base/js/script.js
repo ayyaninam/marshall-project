@@ -471,8 +471,32 @@ function topFunction() {
 
 
 function on__Sumbit_portfolio(e, event) {
-  $("#uploading__modal").modal("show");
-  $('#uploading__modal').modal({backdrop: 'static', keyboard: false})  
-  document.querySelectorAll(".modal .modal-title")[0].innerHTML = "<span class='text-danger text-uppercase'>Please Don't Refresh the page</span><br><span>Uploading Your Files</span>"
-    document.getElementById("progress-bar-file").innerHTML = `<div class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div>`;
-}
+  var empty = true;
+  var all__inputs = $('[id*="image__upload__"]:not([class*="image__already__upload__"])')
+  var form__to__submit = $('[id="form__of__student__inputs"]')
+
+  for (let i = 0; i < all__inputs.length; i++) {
+    if ($(all__inputs[i]).val() !== "") {
+      empty = false;
+    }else{
+      empty = true;
+      console.log(all__inputs[i])
+      alert('Please fill all the Input with Images or Videos, you have Created! Otherwise, delete them.')
+      break 
+    }
+    if (i+1 === all__inputs.length){
+       if (!empty){
+        $("#uploading__modal").modal("show");
+        $('#uploading__modal').modal({backdrop: 'static', keyboard: false})  
+        document.querySelectorAll(".modal .modal-title")[0].innerHTML = "<span class='text-danger text-uppercase'>Please Don't Refresh the page</span><br><span>Uploading Your Files</span>"
+        document.getElementById("progress-bar-file").innerHTML = `<div class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div>`;
+        form__to__submit.submit();
+        }
+          }
+  }
+  // form__to__submit.submit()
+
+
+
+
+  }
