@@ -1,6 +1,0 @@
-env/
-Archive.zip
-media/
-db.sqlite3
-base/__pycache__/
-proj/__pycache__/
